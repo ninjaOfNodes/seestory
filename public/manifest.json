@@ -1,0 +1,51 @@
+{
+  "name": "SeeStory - Heritage Discovery App",
+  "short_name": "SeeStory",
+  "description": "Point your camera at anything and discover its heritage story. AI-powered visual recognition for monuments and historical sites.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#7C3AED",
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["travel", "education", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Explore Stories",
+      "short_name": "Explore",
+      "description": "Browse heritage stories around you",
+      "url": "/?page=explore",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
+

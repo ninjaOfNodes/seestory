@@ -1,6 +1,7 @@
 'use client';
 
-import { Camera, ChevronRight, MapPin, Star } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Camera, ChevronRight, MapPin, Star, Download, X } from 'lucide-react';
 import { COLORS, SUGGESTIONS } from '@/lib/constants';
 import VideoReel from '@/components/VideoReel';
 
@@ -13,8 +14,112 @@ export default function SuggestionsContent({
   isKids,
   accent,
 }: SuggestionsContentProps) {
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Detect if mobile device
+    const isMobileDevice = () => {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    };
+    
+    const mobileCheck = isMobileDevice();
+    setIsMobile(mobileCheck);
+
+    // Only listen for PWA prompt on mobile
+    if (!mobileCheck) {
+      console.log('📱 Desktop detected - PWA banner hidden');
+      return;
+    }
+
+    // Log PWA info on mobile
+    console.log('📱 Mobile device detected - checking PWA support');
+
+    // Listen for install prompt event
+    const handleBeforeInstallPrompt = (e: any) => {
+      console.log('✅ beforeinstallprompt event fired!');
+      e.preventDefault();
+      setDeferredPrompt(e);
+      // Show banner only if not dismissed
+      if (!localStorage.getItem('installBannerDismissed')) {
+        setShowInstallBanner(true);
+      }
+    };
+
+    // Handle successful installation
+    const handleAppInstalled = () => {
+      console.log('✅ App installed!');
+      setShowInstallBanner(false);
+      localStorage.setItem('installBannerDismissed', 'true');
+      setDeferredPrompt(null);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+    
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) {
+      alert('PWA installation not available on this device');
+      return;
+    }
+
+    try {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        setShowInstallBanner(false);
+        localStorage.setItem('installBannerDismissed', 'true');
+      }
+      
+      setDeferredPrompt(null);
+    } catch (error) {
+      console.error('Install error:', error);
+    }
+  };
+
+  const handleDismissBanner = () => {
+    setShowInstallBanner(false);
+    localStorage.setItem('installBannerDismissed', 'true');
+  };
   return (
     <div className="space-y-2">
+      {/* Install Web App Banner */}
+      {showInstallBanner && (
+        <div
+          className="flex items-center gap-3 px-4 py-3 rounded-2xl shadow-sm"
+          style={{
+            background: 'linear-gradient(135deg, var(--color-brand-purple) 0%, #9333EA 100%)',
+          }}
+        >
+          <div className="flex-1">
+            <p className="text-sm font-bold text-white">Install SeeStory</p>
+            <p className="text-xs text-purple-100 font-medium">Access offline & home screen</p>
+          </div>
+          <button
+            onClick={handleInstallClick}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white rounded-lg font-bold text-xs transition-transform active:scale-95"
+            style={{ color: 'var(--color-brand-purple)' }}
+          >
+            <Download size={14} />
+            Install
+          </button>
+          <button
+            onClick={handleDismissBanner}
+            className="p-1.5 hover:bg-white/20 rounded-lg transition-colors"
+          >
+            <X size={16} color="#fff" />
+          </button>
+        </div>
+      )}
+
       {/* Camera call-to-action button */}
       <button
         className="w-full flex items-center gap-3.5 px-4 py-2.5 rounded-2xl transition-all active:scale-98"

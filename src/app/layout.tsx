@@ -26,7 +26,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit:  "cover",
-  themeColor:   "#000000",
+  themeColor:   "#7C3AED",
 };
 
 export default function RootLayout({
@@ -40,10 +40,12 @@ export default function RootLayout({
       className={`${cinzel.variable} ${nunito.variable} ${spaceGrotesk.variable}`}
     >
       <head>
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <meta name="mobile-web-app-capable"                content="yes" />
         <meta name="apple-mobile-web-app-capable"          content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title"            content="SeeStory" />
       </head>
 
       <body className="antialiased text-white overflow-x-hidden">

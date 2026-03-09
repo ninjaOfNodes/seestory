@@ -12,7 +12,7 @@ export default function DesktopBlocker() {
       <div className={styles.dbLogo}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/logo.png"
+          src="/icons/icon-192.png"
           alt="SeeStory"
           width={52}
           height={52}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Sparkles, Search, SlidersHorizontal, User } from 'lucide-react';
 import { COLORS } from '@/lib/constants';
 import { NavTab, Mode } from '@/lib/types';
@@ -16,6 +16,47 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [navTab, setNavTab] = useState<NavTab>('suggestions');
   const [mode, setMode] = useState<Mode>('default');
+  const hasShownLoadingRef = useRef(false);
+
+  // Show loading screen only once on app mount and only if PWA is installed
+  useEffect(() => {
+    // Check if app is running in standalone mode (installed as PWA)
+    const isPWAInstalled =
+      (navigator as any).standalone === true || // iOS
+      window.matchMedia('(display-mode: standalone)').matches; // Android/other
+
+    if (!hasShownLoadingRef.current) {
+      hasShownLoadingRef.current = true;
+
+      // Only show loading if PWA is installed
+      if (!isPWAInstalled) {
+        console.log('📱 Browser mode - skipping loading screen');
+        setLoaded(true);
+        return;
+      }
+
+      console.log('✅ PWA installed - showing loading screen');
+      // Show loading for 2.5 seconds then mark as shown
+      const timer = setTimeout(() => {
+        setLoaded(true);
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // Register service worker for PWA
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then((registration) => {
+          console.log('Service Worker registered:', registration);
+        })
+        .catch((error) => {
+          console.log('Service Worker registration failed:', error);
+        });
+    }
+  }, []);
 
   // Determine if in kids mode and which color accent to use
   const isKids = mode === 'kids';
