@@ -1,0 +1,141 @@
+/* layout.module.css */
+
+.desktopBlocker { display: none; }
+.appRoot        { display: block; }
+
+@media (min-width: 1024px) {
+  .desktopBlocker { display: flex; }
+  .appRoot        { display: none; }
+}
+
+/* ── FULL SCREEN PURPLE BG ── */
+.desktopBlocker {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #4A1D96;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-grotesk), 'Space Grotesk', sans-serif;
+  overflow: hidden;
+  gap: 32px;
+}
+
+/* Subtle dark vignette at edges */
+.desktopBlocker::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0,0,0,0.35) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── LOGO ROW ── */
+.dbLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.dbLogoIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  object-fit: contain;
+}
+
+.dbLogoName {
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+}
+
+/* ── CENTER CONTENT ── */
+.dbCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.dbHeadline {
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-size: 52px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.dbHeadlineAccent {
+  color: #FF2D8A;
+}
+
+.dbDesc {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.6);
+  max-width: 420px;
+}
+
+/* ── DIVIDER LINE ── */
+.dbLine {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, #FF2D8A, #7FFF00);
+  border-radius: 2px;
+}
+
+/* ── BADGE ── */
+.dbBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.dbBadgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7FFF00;
+  animation: dbPulse 1.5s ease-in-out infinite;
+}
+
+/* ── FOOTER ── */
+.dbFooter {
+  position: absolute;
+  bottom: 28px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+/* ── KEYFRAMES ── */
+@keyframes dbPulse {
+  0%,100% { opacity: 1;   transform: scale(1); }
+  50%     { opacity: 0.4; transform: scale(0.8); }
+}

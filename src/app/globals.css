@@ -1,5 +1,32 @@
 @import "tailwindcss";
 
+@theme {
+  /* ── Brand ── */
+  --color-brand-pink:   #FF3B7D;
+  --color-brand-green:  #00FF00;
+  --color-brand-purple: #7C3AED;
+  --color-brand-black:  #000000;
+
+  /* ── Kids mode ── */
+  --color-kids-bg:      #0D0A1A;
+  --color-kids-surface: #16123A;
+  --color-kids-card:    #1E1850;
+  --color-kids-pink:    #FF2D8A;
+  --color-kids-green:   #39FF14;
+  --color-kids-purple:  #8B5CF6;
+  --color-kids-yellow:  #FFE600;
+  --color-kids-cyan:    #00FFFF;
+  --color-kids-orange:  #FF6B35;
+  --color-kids-text:    #FFFFFF;
+  --color-kids-muted:   #9B8EC4;
+  --color-kids-soft:    #C4B5FD;
+
+  /* ── Fonts ── */
+  --font-cinzel:  "Cinzel", serif;
+  --font-nunito:  "Nunito", sans-serif;
+  --font-grotesk: "Space Grotesk", sans-serif;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
